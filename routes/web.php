@@ -17,7 +17,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
-    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except(['create', 'store']);
@@ -84,3 +85,6 @@ Route::get('/home', function () {
     }
     return redirect()->route('cashier.pos.index');
 })->middleware('auth');
+
+
+Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
